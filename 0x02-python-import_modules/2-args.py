@@ -7,11 +7,14 @@ if __name__ == "__main__":
     num_args = len(argv)
     
     if num_args == 0:
-        print("0 argument.")
+        argStr = "0 argument."
     elif num_args == 1:
-        print("1 argument:", argv[0] + ":")
-        print("1:", argv[0])
+        argStr = "1 argument: {}:".format(argv[0])
     else:
-        print(num_args, "arguments:", ", ".join(argv) + ":")
-        for i, arg in enumerate(argv, start=1):
-            print(i, ":", arg)
+        argStr = "{} arguments: {}:".format(num_args, ", ".join(argv))
+    
+    print(argStr)
+    
+    for i, arg in enumerate(argv, start=1):
+        print(i, ":", arg)
+
