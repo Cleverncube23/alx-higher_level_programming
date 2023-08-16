@@ -1,6 +1,9 @@
 #!/usr/bin/python3
-uniq_add = __import__('2-uniq_add').uniq_add
+def uniq_add(my_list=[]):
+    uniq_list = set(my_list)
+    num = 0
 
-my_list = [1, 2, 3, 1, 4, 2, 5]
-result = uniq_add(my_list)
-print("Result: {:d}".format(result))
+    for i in uniq_list:
+        num += i
+
+    return (num)
