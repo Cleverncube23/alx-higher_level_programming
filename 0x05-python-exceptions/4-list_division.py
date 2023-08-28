@@ -1,17 +1,25 @@
-def list_division(my_list_1, my_list_2, list_length):
+#!/usr/bin/python3
+
+def safe_list_division(list_1, list_2, length):
+    """
+    Takes two lists and creates a new list with the result of division
+    operation. Handles errors and prints error messages to stdout.
+    """
+    i = 0
     new_list = []
-    for i in range(list_length):
+    result = 0
+    for i in range(0, length):
         try:
-            res = my_list_1[i] / my_list_2[i]
+            result = (list_1[i] / list_2[i])
         except TypeError:
-            print("wrong type")
-            res = 0
+            result = 0
+            print("Error: Invalid data type")
         except ZeroDivisionError:
-            print("division by 0")
-            res = 0
+            result = 0
+            print("Error: Division by zero")
         except IndexError:
-            print("out of range")
-            res = 0
+            result = 0
+            print("Error: Index out of range")
         finally:
-            new_list.append(res)
+            new_list.append(result)
     return new_list
