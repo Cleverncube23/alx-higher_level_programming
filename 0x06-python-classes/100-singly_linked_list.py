@@ -1,77 +1,120 @@
-asses for a singly-linked list."""
+#!/usr/bin/python3
 
 
 class Node:
-    """Represent a node in a singly-linked list."""
-
+    """
+    Node class Node:
+    """
+    Node class for a singly linked list
+    """
     def __init__(self, data, next_node=None):
-        """Initialize a new Node instance.
-
-        Args:
-            data (int): The data stored in the Node.
-            next_node (Node): The next Node in the sequence.
         """
-        self.data = data
-        self.next_node = next_node
+        initialization called when instance of class created
+        """
+        if self.__validate_data(data):
+            self.__data = data
+        if self.__validate_node(next_node):
+            self.__next_node = next_node
 
     @property
     def data(self):
-        """Retrieve or set the data stored in the Node."""
+        """
+        get the data attribute
+        """
         return self.__data
 
     @data.setter
     def data(self, value):
-        if not isinstance(value, int):
-            raise TypeError("data must be an integer")
-        self.__data = value
+        """
+        set the data attribute
+        """
+        if self.__validate_data(value):
+            self.__data = value
 
     @property
     def next_node(self):
-        """Retrieve or set the next Node in the sequence."""
+        """
+        get the node attribute
+        """
         return self.__next_node
 
     @next_node.setter
     def next_node(self, value):
-        if not isinstance(value, Node) and value is not None:
-            raise TypeError("next_node must be a Node object")
-        self.__next_node = value
+        """
+        set the node attribute
+        """
+        if self.__validate_node(value):
+            self.__next_node = value
+
+    def __validate_data(self, data):
+        """
+        validates the data, checking its type
+        Returns true or false if valid or not respectively
+        """
+        if isinstance(data, int):
+            return True
+        return False
+
+    def __validate_node(self, node):
+        """
+        validates the node, checking it's a node object
+        Returns true or false if valid or not respectively
+        """
+        if isinstance(node, Node) or node is None:
+            return True
+        return False
 
 
 class SinglyLinkedList:
-    """Represent a singly-linked list."""
-
+    """
+    contains nodes for a singly linked list and methods for ->
+    insertion
+    """
     def __init__(self):
-        """Initialize a new SinglyLinkedList instance."""
+        """
+        initialization called when instance of class created
+        """
         self.__head = None
 
-    def sorted_insert(self, value):
-        """Insert a new Node into the SinglyLinkedList.
-
-        The Node is inserted into the list at the correct
-        ordered numerical position.
-
-        Args:
-            value (int): The value to be stored in the new Node.
-        """
-        new_node = Node(value)
-        if self.__head is None:
-            new_node.next_node = None
-            self.__head = new_node
-        elif self.__head.data > value:
-            new_node.next_node = self.__head
-            self.__head = new_node
-        else:
-            tmp = self.__head
-            while tmp.next_node is not None and tmp.next_node.data < value:
-                tmp = tmp.next_node
-            new_node.next_node = tmp.next_node
-            tmp.next_node = new_node
-
     def __str__(self):
-        """Define the print() representation of a SinglyLinkedList."""
-        values = []
+        """
+        used by print to print linked list
+        """
         tmp = self.__head
+        string = ""
         while tmp is not None:
-            values.append(str(tmp.data))
+            string += str(tmp.data)
             tmp = tmp.next_node
-        return '\n'.join(values)
+            if tmp is not None:
+                string += '\n'
+        return string
+
+    def sorted_insert(self, value):
+        """
+        inserts a new Node into the correct sorted position
+                                            (based on data)
+        """
+        tmp = self.__head
+        if tmp is None:
+            self.__head = Node(value)
+            return
+
+        prev = None
+        while tmp is not None:
+            if (tmp.next_node is None or tmp.next_node.data >= value):
+                if (tmp.data >= value):
+                    next_n = tmp
+                    tmp = Node(value)
+                    tmp.next_node = next_n
+                    if prev is not None:
+                        prev.next_node = tmp
+                    else:
+                        self.__head = tmp
+                else:
+                    next_n = tmp.next_node
+                    tmp.next_node = Node(value)
+                    tmp.next_node.next_node = next_n
+                return
+
+            prev = tmp
+            tmp = tmp.next_node
